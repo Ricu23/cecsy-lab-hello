@@ -3,3 +3,15 @@ services:
     image: nginx:1.27-alpine
     volumes:
       - ./site:/usr/share/nginx/html:ro
+
+  writer:
+    image: busybox:1.37
+    user: "1000:1000"
+    volumes:
+      - ./data:/data
+    command: ["sh", "-c", "id > /data/writer-id.txt && date >> /data/writer-id.txt && exec sleep 2147483647"]
+    healthcheck:
+      test: ["CMD", "test", "-s", "/data/writer-id.txt"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
