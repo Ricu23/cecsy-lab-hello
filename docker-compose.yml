@@ -6,7 +6,7 @@ services:
 
   writer:
     image: busybox:1.37
-    user: "1000:1000"
+    user: "${APP_UID}:${APP_GID}"
     volumes:
       - ./data:/data
     command: ["sh", "-c", "id > /data/writer-id.txt && date >> /data/writer-id.txt && exec sleep 2147483647"]
